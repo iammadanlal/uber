@@ -23,12 +23,12 @@ module.exports.registerUser = async (req, res) => {
 		email,
 		password: hashedPassword,
 	});
-
+	const { password: _, ...userWithoutPassword } = await user.toObject();
 	const token = user.generateAuthToken();
 
 	res.cookie("token", token);
 
-	res.status(201).json({ token, user });
+	res.status(201).json({ token, user: userWithoutPassword });
 };
 
 module.exports.loginUser = async (req, res) => {
@@ -50,9 +50,9 @@ module.exports.loginUser = async (req, res) => {
 	if (!isMatch) {
 		return res.status(400).json({ message: "Invalid email or password" });
 	}
+	const { password: _, ...userWithoutPassword } = await user.toObject();
 
 	const token = user.generateAuthToken();
-
 	res.cookie("token", token);
 
 	res.status(200).json({ token, user });
