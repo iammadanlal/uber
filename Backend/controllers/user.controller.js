@@ -20,6 +20,8 @@ module.exports.registerUser = async (req, res) => {
 
 	const token = user.generateAuthToken();
 
+	res.cookie("token", token);
+
 	res.status(201).json({ token, user });
 };
 
@@ -45,5 +47,11 @@ module.exports.loginUser = async (req, res) => {
 
 	const token = user.generateAuthToken();
 
+	res.cookie("token", token);
+
 	res.status(200).json({ token, user });
+};
+
+module.exports.getUserProfile = async (req, res) => {
+	res.status(200).send(req.user);
 };
