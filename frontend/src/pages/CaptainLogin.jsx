@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const UserLogin = () => {
+const CaptainLogin = () => {
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
@@ -57,22 +57,22 @@ const UserLogin = () => {
 					</button>
 				</form>
 				<p className="text-center">
-					New here?{" "}
-					<Link to="/signup" className="text-blue-600">
-						Create new Account
+					Join a fleet?{" "}
+					<Link to="/captain-signup" className="text-blue-600">
+						Register as a Captain
 					</Link>
 				</p>
 			</div>
 			<div>
 				<Link
-					to={"/captain-login"}
-					className="bg-[#217a3f] mb-7 block text-center rounded px-4 py-2 border w-full text-lg text-white"
+					to={"/login"}
+					className="bg-[#c0841d] mb-7 rounded px-4 py-2 border w-full text-lg text-white block text-center"
 				>
-					Signin as Captain
+					Signin as User
 				</Link>
 			</div>
 		</div>
 	);
 };
 
-export default UserLogin;
+export default CaptainLogin;
