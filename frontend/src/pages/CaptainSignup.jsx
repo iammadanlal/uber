@@ -1,21 +1,54 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CaptainContext } from "../contexts/CaptainContext";
+import axios from "axios";
 
 const CaptainSignup = () => {
+	const navigate = useNavigate();
+	const { setCaptain } = useContext(CaptainContext);
+
 	const [form, setForm] = useState({
 		firstName: "",
 		lastName: "",
 		email: "",
 		password: "",
 	});
+	const [vehicle, setVehicle] = useState({
+		color: "",
+		plate: "",
+		type: "car",
+		capacity: 1,
+	});
 	const onFormInputChange = (e) => {
 		const key = e.target.id;
 		const value = e.target.value;
 		setForm({ ...form, [key]: value });
 	};
-	const handleSubmit = (e) => {
+	const onVehicleInputChange = (e) => {
+		const key = e.target.id;
+		const value = e.target.value;
+		setVehicle({ ...vehicle, [key]: value });
+	};
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(form);
+		const { firstName, lastName, ...rest } = form;
+		const newCaptain = {
+			fullname: {
+				firstName,
+				lastName,
+			},
+			...rest,
+			vehicle,
+		};
+		const response = await axios.post(
+			import.meta.env.VITE_BASE_URI + "/captains/register",
+			newCaptain
+		);
+		if (response.status === 201) {
+			setCaptain(response.data.captain);
+			localStorage.setItem("token", response.data.token);
+			navigate("/home");
+		}
 	};
 
 	return (
@@ -75,6 +108,52 @@ const CaptainSignup = () => {
 						name=""
 						id="password"
 					/>
+					<h3 className="text-lg font-medium mb-2">
+						Vehicle Information
+					</h3>
+					<div className="flex gap-4 mb-5">
+						<input
+							className="bg-[#eee] rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+							type="text"
+							required
+							placeholder="Color"
+							value={vehicle.color}
+							onChange={onVehicleInputChange}
+							id="color"
+						/>
+						<input
+							className="bg-[#eee] rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+							type="text"
+							required
+							placeholder="Plate"
+							value={vehicle.plate}
+							onChange={onVehicleInputChange}
+							id="plate"
+						/>
+					</div>
+					<div className="flex gap-4 mb-5">
+						<input
+							className="bg-[#eee] rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+							type="text"
+							required
+							placeholder="Capacity"
+							value={vehicle.capacity}
+							onChange={onVehicleInputChange}
+							id="capacity"
+						/>
+						<select
+							className="bg-[#eee] rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+							required
+							placeholder="Type"
+							value={vehicle.type}
+							onChange={onVehicleInputChange}
+							id="type"
+						>
+							<option value="car">Car</option>
+							<option value="motorcycle">Motorcycle</option>
+							<option value="auto">Auto</option>
+						</select>
+					</div>
 					<button
 						type="submit"
 						className="bg-[#000] mb-7 rounded px-4 py-2 border w-full text-lg text-white"
