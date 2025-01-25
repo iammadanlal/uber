@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,3 +40,7 @@ const CaptainProtectedRoute = ({ children }) => {
 };
 
 export default CaptainProtectedRoute;
+
+CaptainProtectedRoute.propTypes = {
+	children: PropTypes.node,
+};
