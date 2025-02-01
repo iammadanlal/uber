@@ -18,10 +18,11 @@ const CaptainProtectedRoute = ({ children }) => {
 				},
 			}
 		);
-		if (response.statusText === "OK") {
+		if (response.statusText === "OK" && response.data.captain) {
 			setLoading(false);
 			return;
 		}
+		localStorage.removeItem("token");
 		navigate("/captain-login");
 	}, [navigate, token]);
 
