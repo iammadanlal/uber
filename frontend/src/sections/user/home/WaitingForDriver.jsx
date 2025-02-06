@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const WaitingForDriver = ({ setWaitingForDriver }) => {
+const WaitingForDriver = ({ setWaitingForDriver, ride }) => {
 	return (
 		<div>
 			<h5
@@ -17,9 +17,11 @@ const WaitingForDriver = ({ setWaitingForDriver }) => {
 					className="h-12"
 				/>
 				<div className="text-right">
-					<h2 className="text-lg font-medium">Sarthak</h2>
+					<h2 className="text-lg font-medium">
+						{ride?.captain.fullname.firstName}
+					</h2>
 					<h4 className="text-xl font-semibold -mt-1 -mb-1">
-						MP04 AB 1243
+						{ride?.captain.vehicle.plate}
 					</h4>
 					<p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
 				</div>
@@ -32,7 +34,7 @@ const WaitingForDriver = ({ setWaitingForDriver }) => {
 						<div>
 							<h3 className="text-lg font-medium">562/11-A</h3>
 							<p className="text-gray-600 text-sm -mt-1">
-								Kanakia, Pune
+								{ride?.pickup}
 							</p>
 						</div>
 					</div>
@@ -41,7 +43,7 @@ const WaitingForDriver = ({ setWaitingForDriver }) => {
 						<div>
 							<h3 className="text-lg font-medium">562/11-A</h3>
 							<p className="text-gray-600 text-sm -mt-1">
-								Kanakia, Pune
+								{ride?.destination}
 							</p>
 						</div>
 					</div>
@@ -63,5 +65,6 @@ const WaitingForDriver = ({ setWaitingForDriver }) => {
 export default WaitingForDriver;
 
 WaitingForDriver.propTypes = {
-	setWaitingForDriver: PropTypes.func,
+	setWaitingForDriver: PropTypes.func.isRequired,
+	ride: PropTypes.object.isRequired,
 };

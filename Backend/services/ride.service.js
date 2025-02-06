@@ -1,6 +1,7 @@
 const { baseFare, perKmFare, perMinFare } = require("../constants/default");
 const { generateOtp } = require("../utils/otp.util");
 const mapService = require("./map.service");
+const rideModel = require("../models/ride.model");
 
 const getFare = async (pickup, destination) => {
 	if (!pickup || !destination) {

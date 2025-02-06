@@ -24,7 +24,7 @@ const LookingForDriver = (props) => {
 						<div>
 							<h3 className="text-lg font-medium">562/11-A</h3>
 							<p className="text-gray-600 text-sm -mt-1">
-								Kanakia, Pune
+								{props.pickup}
 							</p>
 						</div>
 					</div>
@@ -33,14 +33,16 @@ const LookingForDriver = (props) => {
 						<div>
 							<h3 className="text-lg font-medium">562/11-A</h3>
 							<p className="text-gray-600 text-sm -mt-1">
-								Kanakia, Pune
+								{props.destination}
 							</p>
 						</div>
 					</div>
 					<div className="flex items-center gap-5  p-3">
 						<i className="text-lg ri-currency-line"></i>
 						<div>
-							<h3 className="text-lg font-medium">₹ 193.20</h3>
+							<h3 className="text-lg font-medium">
+								₹{props.fare[props.vehicleType]}
+							</h3>
 							<p className="text-gray-600 text-sm -mt-1">
 								Cash, Cash
 							</p>
@@ -56,4 +58,8 @@ export default LookingForDriver;
 
 LookingForDriver.propTypes = {
 	setVehicleForRide: PropTypes.func,
+	fare: PropTypes.object,
+	pickup: PropTypes.string,
+	destination: PropTypes.string,
+	vehicleType: PropTypes.string,
 };
