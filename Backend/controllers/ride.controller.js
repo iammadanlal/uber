@@ -21,14 +21,11 @@ module.exports.createRide = async (req, res) => {
 
 		const pickupCoordinates = await mapService.getAddressCoordinate(pickup);
 
-		console.log("pickup", pickupCoordinates, typeof pickupCoordinates.lat);
-
 		const captainsInRadius = await mapService.getCaptainsInTheRadius(
 			pickupCoordinates.lat,
 			pickupCoordinates.lng,
 			5
 		);
-		console.log("ride cap", captainsInRadius);
 		ride.otp = "";
 
 		const rideWithUser = await rideModel
@@ -69,7 +66,11 @@ module.exports.confirmRide = async (req, res) => {
 	const { rideId } = req.body;
 	try {
 		const ride = await rideService.confirmRide(rideId, req.captain._id);
-		res.status(200).json(ride);
+		sendMessageToSocketId(ride.user.socketId, {
+			event: "ride-confirmed",
+			data: ride,
+		});
+		return res.status(200).json(ride);
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}
@@ -89,8 +90,6 @@ module.exports.startRide = async (req, res) => {
 			otp,
 			captain: req.captain,
 		});
-
-		console.log(ride);
 
 		sendMessageToSocketId(ride.user.socketId, {
 			event: "ride-started",

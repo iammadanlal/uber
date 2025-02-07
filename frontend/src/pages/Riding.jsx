@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SocketContext } from "../contexts/SocketContext";
+import LiveTracking from "../sections/captain/home/LiveTracking";
 
 const Riding = () => {
 	const location = useLocation();
@@ -21,11 +22,7 @@ const Riding = () => {
 				<i className="ri-home-5-line text-lg font-medium"></i>
 			</Link>
 			<div className="h-1/2">
-				<img
-					className="h-full w-full object-cover"
-					src="https://cdn.dribbble.com/users/914217/screenshots/4506553/media/7be2be6f43f64c27946d1068a602ece1.gif?resize=400x0"
-					alt="uber map image"
-				/>
+				<LiveTracking />
 			</div>
 			<div className="h-1/2 p-4">
 				<div className="flex items-center justify-between">

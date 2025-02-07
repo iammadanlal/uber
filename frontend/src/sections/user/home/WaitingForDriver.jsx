@@ -51,7 +51,9 @@ const WaitingForDriver = ({ setWaitingForDriver, ride }) => {
 					<div className="flex items-center gap-5  p-3">
 						<i className="text-lg ri-currency-line"></i>
 						<div>
-							<h3 className="text-lg font-medium">₹ 193.20</h3>
+							<h3 className="text-lg font-medium">
+								₹ {ride?.fare}
+							</h3>
 							<p className="text-gray-600 text-sm -mt-1">
 								Cash, Cash
 							</p>
@@ -67,5 +69,5 @@ export default WaitingForDriver;
 
 WaitingForDriver.propTypes = {
 	setWaitingForDriver: PropTypes.func.isRequired,
-	ride: PropTypes.object.isRequired,
+	ride: PropTypes.object,
 };

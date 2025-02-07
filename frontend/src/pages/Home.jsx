@@ -44,18 +44,17 @@ const Home = () => {
 			userId: user._id,
 			userType: "user",
 		});
-	}, [user, socket]);
+		socket.on("ride-confirmed", (ride) => {
+			setWaitingForDriver(true);
+			setVehicleForRide(false);
+			setRide(ride);
+		});
 
-	socket.on("ride-confirmed", (ride) => {
-		setWaitingForDriver(true);
-		setVehicleForRide(false);
-		setRide(ride);
-	});
-
-	socket.on("ride-started", (ride) => {
-		setWaitingForDriver(false);
-		navigate("/riding", { state: { ride } });
-	});
+		socket.on("ride-started", (ride) => {
+			setWaitingForDriver(false);
+			navigate("/riding", { state: { ride } });
+		});
+	}, [user, socket, navigate]);
 
 	const getSuggestions = async (input) => {
 		try {

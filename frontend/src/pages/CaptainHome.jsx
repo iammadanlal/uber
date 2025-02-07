@@ -25,7 +25,6 @@ const CaptainHome = () => {
 			userType: "captain",
 		});
 		socket.on("new-ride", (data) => {
-			console.log("newride", data);
 			setRide(data);
 			setIsNewRideAvailable(true);
 		});

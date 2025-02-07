@@ -51,8 +51,7 @@ const ConfirmRidePopup = (props) => {
 						alt=""
 					/>
 					<h2 className="text-lg font-medium capitalize">
-						John baba
-						{/* {props.ride?.user.fullname.firstname} */}
+						{`${props.ride?.user.fullname.firstname} ${props.ride?.user.fullname.lastname}`}
 					</h2>
 				</div>
 				<h5 className="text-lg font-semibold">2.2 KM</h5>
@@ -64,7 +63,7 @@ const ConfirmRidePopup = (props) => {
 						<div>
 							<h3 className="text-lg font-medium">562/11-A</h3>
 							<p className="text-sm -mt-1 text-gray-600">
-								RAM{/* {props.ride?.pickup} */}
+								{props.ride?.pickup}
 							</p>
 						</div>
 					</div>
@@ -73,7 +72,7 @@ const ConfirmRidePopup = (props) => {
 						<div>
 							<h3 className="text-lg font-medium">562/11-A</h3>
 							<p className="text-sm -mt-1 text-gray-600">
-								AYX{/* {props.ride?.destination} */}
+								{props.ride?.destination}
 							</p>
 						</div>
 					</div>
@@ -81,8 +80,7 @@ const ConfirmRidePopup = (props) => {
 						<i className="ri-currency-line"></i>
 						<div>
 							<h3 className="text-lg font-medium">
-								₹234.23
-								{/* {props.ride?.fare}{" "} */}
+								₹ {props.ride?.fare}{" "}
 							</h3>
 							<p className="text-sm -mt-1 text-gray-600">
 								Cash Cash

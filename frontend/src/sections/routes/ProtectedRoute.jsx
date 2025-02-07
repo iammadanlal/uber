@@ -1,11 +1,14 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
 const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 	const [isLoading, setLoading] = useState(true);
+
+	const { setUser } = useContext(UserContext);
 
 	const verifyToken = useCallback(async () => {
 		try {
@@ -18,7 +21,8 @@ const ProtectedRoute = ({ children }) => {
 					},
 				}
 			);
-			if (response.statusText === "OK") {
+			if (response.statusText === "OK" && response.data) {
+				setUser(response.data);
 				setLoading(false);
 				return;
 			}
@@ -32,7 +36,6 @@ const ProtectedRoute = ({ children }) => {
 	}, [navigate, token]);
 
 	useEffect(() => {
-		console.log("UseEffect called");
 		if (!token) {
 			navigate("/login");
 		}

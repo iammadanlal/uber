@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 const ConfirmRidePanel = (props) => {
-	console.log(props.fare, props.vehicleType);
 	return (
 		<div>
 			<h5
