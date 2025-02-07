@@ -24,6 +24,7 @@ const WaitingForDriver = ({ setWaitingForDriver, ride }) => {
 						{ride?.captain.vehicle.plate}
 					</h4>
 					<p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
+					<h1 className="text-lg font-semibold">{ride?.otp}</h1>
 				</div>
 			</div>
 
