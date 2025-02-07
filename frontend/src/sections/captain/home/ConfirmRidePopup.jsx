@@ -1,11 +1,32 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmRidePopup = (props) => {
 	const [otp, setOtp] = useState("");
+	const navigate = useNavigate();
 
-	const submitHander = (e) => {
+	const submitHander = async (e) => {
 		e.preventDefault();
+
+		const response = await axios.get(
+			`${import.meta.env.VITE_BASE_URI}/rides/start-ride`,
+			{
+				params: {
+					rideId: props.ride._id,
+					otp: otp,
+				},
+				headers: {
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			}
+		);
+		if (response.status === 200) {
+			props.setIsNewRideAvailable(false);
+			props.setIsNewRideAvailable(false);
+			navigate("/captain-riding", { state: { ride: props.ride } });
+		}
 	};
 
 	return (
@@ -103,6 +124,6 @@ export default ConfirmRidePopup;
 
 ConfirmRidePopup.propTypes = {
 	setConfirmRidePanel: PropTypes.func.isRequired,
-	ride: PropTypes.object.isRequired,
+	ride: PropTypes.object,
 	setIsNewRideAvailable: PropTypes.func.isRequired,
 };

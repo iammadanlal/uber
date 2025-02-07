@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CaptainContext } from "../../contexts/CaptainContext";
 
 const CaptainProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 	const [isLoading, setLoading] = useState(true);
+	const { setCaptain } = useContext(CaptainContext);
 
 	const verifyToken = useCallback(async () => {
 		setLoading(true);
@@ -19,6 +21,7 @@ const CaptainProtectedRoute = ({ children }) => {
 			}
 		);
 		if (response.statusText === "OK" && response.data.captain) {
+			setCaptain(response.data.captain);
 			setLoading(false);
 			return;
 		}

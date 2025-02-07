@@ -1,19 +1,67 @@
 import { Link } from "react-router-dom";
 import CaptainDetails from "./CaptainDetails";
 import RidePopUp from "../sections/captain/home/RidePopUp";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmRidePopup from "../sections/captain/home/ConfirmRidePopup";
+import { SocketContext } from "../contexts/SocketContext";
+import { CaptainContext } from "../contexts/CaptainContext";
+import axios from "axios";
 
 const CaptainHome = () => {
 	const newRidePopUpRef = useRef(null);
 	const confirmRidePanelRef = useRef(null);
-	const [isNewRideAvailable, setIsNewRideAvailable] = useState(true);
+	const [isNewRideAvailable, setIsNewRideAvailable] = useState(false);
 	const [ride, setRide] = useState(null);
 	const [confirmRidePanel, setConfirmRidePanel] = useState(false);
 
-	const confirmRide = () => {};
+	const { socket } = useContext(SocketContext);
+	const { captain } = useContext(CaptainContext);
+
+	useEffect(() => {
+		socket.emit("join", {
+			userId: captain._id,
+			userType: "captain",
+		});
+		socket.on("new-ride", (data) => {
+			console.log("newride", data);
+			setRide(data);
+			setIsNewRideAvailable(true);
+		});
+		const updateLocation = () => {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition((position) => {
+					socket.emit("update-location-captain", {
+						userId: captain._id,
+						location: {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude,
+						},
+					});
+				});
+			}
+		};
+		setInterval(updateLocation, 10000);
+		updateLocation();
+	}, [socket, captain]);
+
+	const confirmRide = async () => {
+		await axios.post(
+			`${import.meta.env.VITE_BASE_URI}/rides/confirm-ride`,
+			{
+				rideId: ride._id,
+				captainId: captain._id,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			}
+		);
+		setConfirmRidePanel(true);
+		setIsNewRideAvailable(false);
+	};
 
 	useGSAP(() => {
 		if (isNewRideAvailable) {

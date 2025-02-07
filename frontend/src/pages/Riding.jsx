@@ -1,6 +1,17 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { SocketContext } from "../contexts/SocketContext";
 
 const Riding = () => {
+	const location = useLocation();
+	const { ride } = location.state;
+	const { socket } = useContext(SocketContext);
+	const navigate = useNavigate();
+
+	socket.on("ride-ended", () => {
+		navigate("/home");
+	});
+
 	return (
 		<div className="h-screen">
 			<Link
@@ -24,9 +35,11 @@ const Riding = () => {
 						className="h-12"
 					/>
 					<div className="text-right">
-						<h2 className="text-lg font-medium">Sarthak</h2>
+						<h2 className="text-lg font-medium">
+							{ride?.captain.fullname.firstName}
+						</h2>
 						<h4 className="text-xl font-semibold -mt-1 -mb-1">
-							MP04 AB 1243
+							{ride?.captain.vehicle.plate}
 						</h4>
 						<p className="text-sm text-gray-600">
 							Maruti Suzuki Alto
@@ -43,7 +56,7 @@ const Riding = () => {
 									562/11-A
 								</h3>
 								<p className="text-gray-600 text-sm -mt-1">
-									Kanakia, Pune
+									{ride?.destination}
 								</p>
 							</div>
 						</div>
@@ -51,7 +64,7 @@ const Riding = () => {
 							<i className="text-lg ri-currency-line"></i>
 							<div>
 								<h3 className="text-lg font-medium">
-									₹ 193.20
+									₹ {ride?.fare}
 								</h3>
 								<p className="text-gray-600 text-sm -mt-1">
 									Cash, Cash

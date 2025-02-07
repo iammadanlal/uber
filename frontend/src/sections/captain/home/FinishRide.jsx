@@ -1,7 +1,27 @@
+import axios from "axios";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const FinishRide = (props) => {
-	const endRide = () => {};
+	const navigate = useNavigate();
+
+	const endRide = async () => {
+		const response = await axios.post(
+			`
+			${import.meta.env.VITE_BASE_URI}/rides/end-ride`,
+			{
+				rideId: props.ride._id,
+			},
+			{
+				headers: {
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			}
+		);
+		if (response.status === 200) {
+			navigate("/captain-home");
+		}
+	};
 
 	return (
 		<div>

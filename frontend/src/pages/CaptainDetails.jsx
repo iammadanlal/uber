@@ -1,4 +1,11 @@
+import { useContext } from "react";
+import { CaptainContext } from "../contexts/CaptainContext";
+
 const CaptainDetails = () => {
+	const { captain } = useContext(CaptainContext);
+
+	console.log(captain);
+
 	return (
 		<div>
 			<div className="flex items-center justify-between">
@@ -8,7 +15,7 @@ const CaptainDetails = () => {
 						src="https://static.vecteezy.com/system/resources/thumbnails/041/646/466/small/ai-generated-portrait-of-handsome-young-man-png.png"
 						alt="captain photo"
 					/>
-					<h4 className="text-lg font-medium">John Baba</h4>
+					<h4 className="text-lg font-medium">{`${captain?.fullname.firstName} ${captain?.fullname.lastName}`}</h4>
 				</div>
 				<div>
 					<h4 className="text-lg font-medium">₹295.20</h4>

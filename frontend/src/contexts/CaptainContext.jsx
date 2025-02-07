@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 export const CaptainContext = React.createContext();
 
@@ -12,3 +13,7 @@ const CaptainProvider = ({ children }) => {
 };
 
 export default CaptainProvider;
+
+CaptainProvider.propTypes = {
+	children: PropTypes.node,
+};
